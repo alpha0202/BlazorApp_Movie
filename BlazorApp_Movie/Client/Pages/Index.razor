@@ -1,9 +1,101 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@*<p>Hola @UtilidadesString.Transformar(nombre)</p>
+*@
+@*<span>
+    <button class="btn btn-primary" @onclick=@DriveStateButton>Click Me</button>
 
-<h1>Hello, world!</h1>
+</span>
+*@
 
-Welcome to your new app.
+<div>
+    <h3>Película</h3>
+    
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+@if (Peliculas is null )
+{
+    <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" alt="cargando" />
+}
+else
+{
+    @foreach (var pelicula in ObtenerPeliculas())
+    {
+        <div class="row">
+            <div class="container_fluid">
+
+                <p>Título: @pelicula.Titulo</p>
+                    @if (DateTime.Today.Subtract(pelicula.FechaLanzamiento).Days <=14)
+                {
+                    <span class="badge" style="color:red">!NEW¡</span>
+                }
+                <p>Fecha Lanzamiento: <b>@pelicula.FechaLanzamiento.ToString("dd MMM yyyy")</b></p>
+            </div>
+        </div>
+    }
+        
+}
+
+
+
+
+
+
+@code{
+    string nombre = "edwin";
+
+    //Pelicula wForever {get { return ObtenerPelicula(); }}
+    List<Pelicula>? Peliculas { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(3000);
+        Peliculas = ObtenerPeliculas();
+    }
+
+
+
+    //Pelicula ObtenerPelicula()
+    //{
+    //    return new Pelicula
+    //        {
+    //            Titulo = "Wakanda Forever",
+    //            FechaLanzamiento = new DateTime(2022, 11, 11)
+    //        };
+    //}
+
+
+    List<Pelicula> ObtenerPeliculas()
+    {
+        return new List<Pelicula>()
+        {
+            new Pelicula{Titulo="Wakanda Forever",FechaLanzamiento= new DateTime(2022,11,11)},
+            new Pelicula{Titulo="Batman",FechaLanzamiento= new DateTime(2022,06,20)},
+            new Pelicula{Titulo="Aquaman 2",FechaLanzamiento= new DateTime(2023,12,24)},
+            new Pelicula{Titulo="Antman 3",FechaLanzamiento= new DateTime(2023,05,16)},
+
+
+        };
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+}
